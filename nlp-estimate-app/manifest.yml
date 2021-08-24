@@ -4,9 +4,23 @@ modules:
       function: main
       title: nlp-estimate-app
       icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
+  jira:adminPage:
+    - key: nlp-estimate-app-admin-page
+      function: admin
+      title: nlp-estimate-admin
+      label: NLP Estimate Admin
   function:
     - key: main
       handler: index.run
+    - key: admin
+      handler: admin.run
 app:
   id: ari:cloud:ecosystem::app/f4d8ecba-2b28-4894-a71f-d65274aa3224
   name: nlp-estimate-app
+permissions:
+  scopes:
+    - write:jira-work
+    - read:jira-work
+    - manage:jira-project
+    - manage:jira-configuration
+    - storage:app
