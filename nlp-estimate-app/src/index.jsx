@@ -1,10 +1,10 @@
 import ForgeUI, { render, Fragment, Text, IssuePanel } from '@forge/ui';
+import { exampleText } from "./admin";
 
 const App = () => {
   return (
     <Fragment>
-      <Text>Hello Mahtab & Sabrina, this is your local developer from Constance who just setup his developing
-      environment to create and continuously deploy forge apps through Docker. </Text>
+      <Text content={exampleText + " " + {unit}} />
     </Fragment>
   );
 };

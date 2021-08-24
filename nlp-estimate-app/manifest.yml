@@ -1,6 +1,6 @@
 modules:
   jira:issuePanel:
-    - key: nlp-estimate-app-hello-world-panel
+    - key: nlp-estimate-app-panel
       function: main
       title: nlp-estimate-app
       icon: https://developer.atlassian.com/platform/forge/images/icons/issue-panel-icon.svg
@@ -9,4 +9,3 @@ modules:
       handler: index.run
 app:
   id: ari:cloud:ecosystem::app/f4d8ecba-2b28-4894-a71f-d65274aa3224
-  name: nlp-estimate-app
