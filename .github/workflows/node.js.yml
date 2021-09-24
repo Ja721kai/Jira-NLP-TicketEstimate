@@ -38,8 +38,8 @@ jobs:
     
       # Setup Forge CLI
     - name: Setup forge cli
-      run: npm install -g @forge/cli & forge settings set usage-analytics false
-    - name: Debug forge version
-      run: forge --version
+      run: npm install -g @forge/cli
+    - name: Debug forge version and refuse analytics settings
+      run: forge --version & forge settings set usage-analytics false
     - name: Login as Jan Kaiser
       run: forge login -u jan.kaiser@stud.akad.de -t ${{ secrets.FORGE_API_TOKEN }}  # token should be taken from keystore or anything similar
