@@ -20,6 +20,9 @@ jobs:
  
     steps:
     - uses: actions/checkout@v2
+    
+    - name: Debug Github Ref
+      run: echo ${GITHUB_REF#refs/heads/}
       
       # Set correct environment variable
     - name: Set env to staging 
