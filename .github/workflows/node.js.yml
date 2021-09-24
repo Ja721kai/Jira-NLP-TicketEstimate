@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
  
     steps:
@@ -32,8 +32,8 @@ jobs:
         cache: 'npm'
       
       # Run stability and tests
-    - run: npm ci
-    - run: npm run build --if-present
+    #- run: npm ci
+    #- run: npm run build --if-present
     # - run: npm test
     
       # Setup npm
@@ -43,7 +43,6 @@ jobs:
     
       # Setup Forge CLI
     - name: Setup forge cli
-      working-directory: ./nlp-estimate-app
       run: npm install -g @forge/cli
     - name: Debug forge version and refuse analytics settings
       run: forge --version & forge settings set usage-analytics false
