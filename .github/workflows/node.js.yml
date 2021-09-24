@@ -58,4 +58,4 @@ jobs:
     - name: Deploy to ${{ env.ENVIRONMENT }}
       working-directory: ./nlp-estimate-app
       # For installation run the following: forge install -e staging -p Jira -s khs-systems.atlassian.net --confirm-scopes
-      run: ls -a && forge deploy -e ${{ env.ENVIRONMENT }}
+      run: forge deploy -e ${{ env.ENVIRONMENT }}
