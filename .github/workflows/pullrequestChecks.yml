@@ -1,6 +1,6 @@
 # This workflow will install Node, npm, Forge and finally deploy to staging/prod based on the destined branch.
 
-name: Deploy Forge App
+name: Build npm on pull request
 
 on:
   pull_request:
@@ -44,7 +44,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-        # Setup npm and test
+        # Setup npm and test (no test specified so far)
       - name: Setup npm
         working-directory: ./nlp-estimate-app
         run: npm init -y && npm install
@@ -52,5 +52,5 @@ jobs:
         run: npm ci
       - name: Run npm run build --if-present
         run: npm run build --if-present
-      - name: Run npm test
-        run: npm test
+      #- name: Run npm test
+      #  run: npm test
