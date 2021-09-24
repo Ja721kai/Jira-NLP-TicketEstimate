@@ -27,11 +27,11 @@ jobs:
       run: |
           echo "Running on pr with target: ${{ steps.branch-name.outputs.base_ref_branch }}"
     - name: Set env to staging 
-      if: endsWith(steps.branch-name.outputs.base_ref_branch, '/dev')  
+      if: endsWith(steps.branch-name.outputs.base_ref_branch, 'dev')  
       run: | 
         echo "ENVIRONMENT=staging" >> $GITHUB_ENV
     - name: Set env to production 
-      if: endsWith(steps.branch-name.outputs.base_ref_branch, '/main')
+      if: endsWith(steps.branch-name.outputs.base_ref_branch, 'main')
       run: |
         echo "ENVIRONMENT=production" >> $GITHUB_ENV
       
