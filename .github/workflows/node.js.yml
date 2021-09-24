@@ -24,7 +24,6 @@ jobs:
       
       # Setup Node.js
     - name: Setup npm package
-      working-directory: ./nlp-estimate-app
       run: npm init -y && npm install
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
