@@ -20,17 +20,14 @@ jobs:
  
     steps:
     - uses: actions/checkout@v2
-    
-    - name: Debug Github Ref
-      run: echo ${GITHUB_REF#refs/heads/}
       
       # Set correct environment variable
     - name: Set env to staging 
-      if: endsWith(github.ref, '/dev') 
+      if: endsWith(github.head_ref, '/dev')  
       run: | 
         echo "ENVIRONMENT=staging" >> $GITHUB_ENV
     - name: Set env to production 
-      if: endsWith(github.ref, '/main')
+      if: endsWith(github.head_ref, '/main')
       run: |
         echo "ENVIRONMENT=production" >> $GITHUB_ENV
       
