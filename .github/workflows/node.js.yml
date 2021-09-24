@@ -38,7 +38,7 @@ jobs:
     
       # Setup Forge CLI
     - name: Setup forge cli
-      run: npm install -g @forge/cli
+      run: npm install -g @forge/cli & forge settings set usage-analytics false
     - name: Debug forge version
       run: forge --version
     - name: Login as Jan Kaiser
