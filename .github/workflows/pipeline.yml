@@ -3,8 +3,6 @@
 name: Deploy Forge App
 
 on:
-  push:
-    branches: [ dev, main ]
   pull_request:
     branches: [ dev, main ]
 
@@ -21,13 +19,19 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-      # Set correct environment variable
+      # Set correct environment variable based on branch names with tj-actions/branch-names repository
+    - name: Branch Names
+      id: branch-name
+      uses: tj-actions/branch-names@v5
+    - name: Debug current branch name
+      run: |
+          echo "Running on pr with target: ${{ steps.branch-name.outputs.base_ref_branch }}"
     - name: Set env to staging 
-      if: endsWith(github.head_ref, '/dev')  
+      if: endsWith(steps.branch-name.outputs.base_ref_branch, '/dev')  
       run: | 
         echo "ENVIRONMENT=staging" >> $GITHUB_ENV
     - name: Set env to production 
-      if: endsWith(github.head_ref, '/main')
+      if: endsWith(steps.branch-name.outputs.base_ref_branch, '/main')
       run: |
         echo "ENVIRONMENT=production" >> $GITHUB_ENV
       
