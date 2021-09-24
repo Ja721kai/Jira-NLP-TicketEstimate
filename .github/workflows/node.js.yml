@@ -23,6 +23,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Enter source subdirectory
       run: cd nlp-estimate-app
+    - name: Setup npm package
+      run: npm init -y && npm install
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v2
       with:
