@@ -52,4 +52,5 @@ jobs:
       # Deploy to Staging on dev, Production on main. This assumes that the app has already been installed to an Atlassian product.
     - name: Deploy to staging/production
       working-directory: ./nlp-estimate-app
+      # For installation run the following: forge install -e staging -p Jira -s khs-systems.atlassian.net --confirm-scopes
       run: ls -a && forge deploy -e staging
