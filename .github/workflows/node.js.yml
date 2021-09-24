@@ -42,4 +42,4 @@ jobs:
     - name: Debug forge version
       run: forge --version
     - name: Login as Jan Kaiser
-      run: forge login # now add credentials somehow
+      run: forge login -u jan.kaiser@stud.akad.de -t ${{ secrets.FORGE_API_TOKEN }}  # token should be taken from keystore or anything similar
