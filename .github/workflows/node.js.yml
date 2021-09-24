@@ -55,7 +55,7 @@ jobs:
       run: forge login -u jan.kaiser@stud.akad.de -t ${{ secrets.FORGE_API_TOKEN }}  # token should be taken from keystore or anything similar
       
       # Deploy to Staging on dev, Production on main. This assumes that the app has already been installed to an Atlassian product.
-    - name: Deploy to ${{ ENVIRONMENT }}
+    - name: Deploy to ${{ env.ENVIRONMENT }}
       working-directory: ./nlp-estimate-app
       # For installation run the following: forge install -e staging -p Jira -s khs-systems.atlassian.net --confirm-scopes
-      run: ls -a && forge deploy -e ${{ ENVIRONMENT }}
+      run: ls -a && forge deploy -e ${{ env.ENVIRONMENT }}
