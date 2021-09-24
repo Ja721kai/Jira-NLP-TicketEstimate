@@ -5,9 +5,9 @@ name: Node.js CI
 
 on:
   push:
-    branches: [ dev-test, main ]
+    branches: [ dev, main ]
   pull_request:
-    branches: [ dev-test, main ]
+    branches: [ dev, main ]
 
 jobs:
   build:
@@ -24,7 +24,7 @@ jobs:
       
       # Set correct environment variable
     - name: Set env to staging 
-      if: endsWith(github.ref, '/dev-test') 
+      if: endsWith(github.ref, '/dev') 
       run: | 
         echo "ENVIRONMENT=staging" >> $GITHUB_ENV
     - name: Set env to production 
