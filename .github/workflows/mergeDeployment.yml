@@ -1,6 +1,6 @@
 # This workflow will install Node, npm, Forge and finally deploy to staging/prod based on the destined branch.
 
-name: Deploy Forge App
+name: Deploy forge app on push
 
 on:
   push:
