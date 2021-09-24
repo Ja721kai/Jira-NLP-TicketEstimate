@@ -32,8 +32,8 @@ jobs:
         cache: 'npm'
       
       # Run stability and tests
- #   - run: npm ci
- #   - run: npm run build --if-present
+    - run: npm ci
+    - run: npm run build --if-present
     # - run: npm test
     
       # Setup npm
