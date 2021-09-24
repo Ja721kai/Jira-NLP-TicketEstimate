@@ -48,4 +48,4 @@ jobs:
       # Deploy to Staging on dev, Production on main. This assumes that the app has already been installed to an Atlassian product.
     - name: Deploy to staging/production
       working-directory: ./nlp-estimate-app
-      run: forge deploy -e staging
+      run: ls -a & forge deploy -e staging
