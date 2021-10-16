@@ -4,7 +4,6 @@ import {BerichteComponent} from "./components/berichteErstellen";
 export const AdminConfigPage = () => {
     return (
         <AdminPage>
-          <Text> Hello World! </Text>
           <BerichteComponent />
         </AdminPage>
     );

@@ -1,4 +1,4 @@
-import ForgeUI, {Table, Head, Row, Cell, Text, Button, Fragment} from '@forge/ui';
+import ForgeUI, {Table, Head, Row, Cell, Text, Strong, Button, Fragment} from '@forge/ui';
 
 const tableColumnNames = ["Name", "Besitzer", "Zugriff", "Markiert von"];
 
@@ -17,11 +17,20 @@ const mockReports = [
   }
 ];
 
+let currentPage = 1;
+const PAGESIZE = 20;
+
+function getCurrentPageRange() {
+  let end = currentPage * PAGESIZE;
+  let start = end - (PAGESIZE - 1);
+  let currentPageElements = start.toString() + "-" + end.toString();  // e.g. 1-20
+  return currentPageElements;
+}
 
 export const BerichteComponent = () => {
   return (
     <Fragment>
-      <Text>{getPaginationString(mockReports, 20) + " von " + mockReports.length.toString()}</Text>
+      <Text><Strong>{getCurrentPageRange()}</Strong> von <Strong>{PAGESIZE}</Strong></Text>
       <Table>
         <Head>
           <Cell>
