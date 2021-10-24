@@ -24,8 +24,9 @@ export const Configurations = () => {
   const [isOpen, setOpen] = useState(false);
   return (
     <Fragment>
+      <Text> </Text>
       <Text> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </Text>
-      <Button text="WHATSMYNAME" onClick={() => setOpen(true)} />
+      <Button text="Standardwerte bearbeiten" onClick={() => setOpen(true)} />
       {isOpen && (
         <ModalDialog closeButtonText={"Abbrechen"} header="Allgemeine Konfigurationen" onClose={() => setOpen(false)}>
           <Form submitButtonText={"Speichern"} onSubmit={data => {

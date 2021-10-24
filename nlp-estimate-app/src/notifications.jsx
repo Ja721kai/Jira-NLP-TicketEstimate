@@ -31,15 +31,16 @@ export const Notifications = () => {
   const [isOpen, setOpen] = useState(false);
   return (
     <Fragment>
+      <Text> </Text>
       <Text> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </Text>
-      <Button text="Benachrichtigungseinstellungen" onClick={() => setOpen(true)} />
+      <Button icon = "settings" text="Benachrichtigungseinstellungen" onClick={() => setOpen(true)} />
       {isOpen && (
         <ModalDialog closeButtonText={"Abbrechen"} header="Benachrichtigungseinstellungen" onClose={() => setOpen(false)}>
           <Form submitButtonText={"Speichern"} onSubmit={data => {
             console.log(data);
             setOpen(false);
           }}>
-            <Select label="Beibehaltungsdauer" name="notificationLength">
+            <Select label="Beibehaltungsdauer" name="notificationLength" description="Wie lange Ereignisse im Protokoll verbleiben, bevor sie gelöscht werden">
               <Option defaultSelected label="1 Monat" value="1M" />
               <Option label="3 Monate" value="3M" />
               <Option label="6 Monate" value="6M" />
