@@ -1,10 +1,10 @@
 import ForgeUI, { AdminPage, render, Text } from "@forge/ui";
-import {BerichteComponent} from "./components/berichteErstellen";
+import {Reports} from "./components/reports/reports";
 
 export const AdminConfigPage = () => {
     return (
         <AdminPage>
-          <BerichteComponent />
+          <Reports />
         </AdminPage>
     );
 };
