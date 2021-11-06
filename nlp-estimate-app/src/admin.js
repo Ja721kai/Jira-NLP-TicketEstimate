@@ -1,4 +1,4 @@
-import ForgeUI, {AdminPage, render, Text,Tabs, Tab, Button, Fragment, useState,  Macro} from "@forge/ui";
+import ForgeUI, {AdminPage, render, Tabs, Tab, Macro} from "@forge/ui";
 import {Notifications} from "./components/notifications/notifications";
 import {Configurations} from "./components/configurations/configurations";
 import {Endpoints} from "./components/endpoints/endpoints";
