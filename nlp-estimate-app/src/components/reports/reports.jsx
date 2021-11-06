@@ -1,4 +1,11 @@
-import ForgeUI, {Button, Cell, Form, Fragment, Head, Row, Select, Strong, Table, Text, TextField, Option} from '@forge/ui';
+import ForgeUI, {
+  Button,
+  Form,
+  Fragment,
+  Select, Option,
+  Cell, Head, Row, Table,
+  Text, Strong, TextField,
+} from '@forge/ui';
 
 const tableColumnNames = ["Name", "Besitzer", "Zugriff", "Markiert von"];
 
