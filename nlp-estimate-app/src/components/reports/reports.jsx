@@ -117,6 +117,8 @@ export const Reports = () => {
   // Modal Dialog
   const [isOpen, setOpen] = useState(false);
 
+
+export const Reports = () => {
   return (
     <Fragment>
       <Fragment>
