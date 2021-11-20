@@ -1,41 +1,58 @@
-import ForgeUI, {Button, Cell, Form, Fragment, Head, Row, Select, Strong, Table, Text, TextField, Option} from '@forge/ui';
+import ForgeUI, {
+  Button,
+  Cell,
+  Form,
+  Fragment,
+  Head,
+  Row,
+  Select,
+  ModalDialog,
+  Table,
+  Text,
+  TextField,
+  Option,
+  useState
+} from '@forge/ui';
 
 const tableColumnNames = ["Name", "Besitzer", "Zugriff", "Markiert von"];
 
 let mockReports = [
   {
+    fav: false,
     name: "Bericht 1",
     owner: "Mahtab Houshmand",
     access: "public",
     marked_by: 0
   },
   {
+    fav: false,
     name: "Bericht 2",
     owner: "Sabrina Schuler",
     access: "private",
     marked_by: 2
   },
   {
+    fav: true,
     name: "Bericht 3",
     owner: "Sabrina Schuler",
     access: "private",
     marked_by: 2
   },
   {
+    fav: false,
     name: "Bericht 4",
     owner: "Sabrina Schuler",
     access: "private",
     marked_by: 2
   },
   {
+    fav: true,
     name: "Bericht 5",
     owner: "Jan Kaiser",
     access: "private",
     marked_by: 1
   }
 ];
-
-let currentReports = mockReports;
 
 let currentPage = 1;
 const PAGESIZE = 3;
@@ -56,39 +73,56 @@ const getUserOptions = (reportList) => {
   return uniqueNames;
 }
 
-const setFormState = () => {};
-const onSubmit = async (formData) => {
-  /**
-   * formData:
-   * {
-   *   name: 'Bericht 1'
-   * }
-   */
-  setFormState(formData);
+const getStarIcon = (isFav) => {
+  return isFav ? "star-filled" : "star";
 }
 
-const goBack = () => {};
-const cancel = () => {};
-
-const actionButtons = [
-  <Button text="Go back" onClick={goBack} />,
-  <Button text="Cancel" onClick={cancel} />,
-];
-
 export const Reports = () => {
+
+  // Form submission & table filtering using form values
+  const[savedReports, setSavedReports] = useState(mockReports);
+  const[displayedReports, setDisplayedReports] = useState(savedReports);
+
+  const filterCurrentReports = (formData) => {
+    let filteredReports = displayedReports;
+    if (formData.name !== "") {
+      filteredReports = filteredReports.filter(report => report.name.includes(formData.name));
+    }
+    if (formData.user !== "") {
+      filteredReports = filteredReports.filter(report => report.owner === formData.user);
+    }
+    setDisplayedReports(filteredReports);
+  }
+
+  const onSubmit = async (formData) => {
+    filterCurrentReports(formData);
+  }
+
+  const reset = () => {
+    setDisplayedReports(savedReports);
+  };
+
+  const actionButtons = [
+    <Button text="Reset Filters" onClick={reset} />,
+  ];
+
+  // Modal Dialog
+  const [isOpen, setOpen] = useState(false);
+
   return (
     <Fragment>
       <Fragment>
         <Form onSubmit={onSubmit} actionButtons={actionButtons}>
-          <TextField name='Name' label='name'/>
-          <Select label='User' name='user' description="Benutzer">
-            {getUserOptions(mockReports).map(user => (
+          <TextField label='Name' name='name' />
+          <Select label='User' name='user' placeholder="Besitzer">
+            <Option defaultSelected label="Besitzer" value="" />
+            {getUserOptions(savedReports).map(user => (
               <Option label={user} value={user}/>
             ))}
           </Select>
         </Form>
       </Fragment>
-      <Text><Strong>{getCurrentPageRange()}</Strong> von <Strong>{currentReports.length}</Strong></Text>
+      <Fragment>
       <Table rowsPerPage={PAGESIZE}>
         <Head>
           <Cell>
@@ -103,13 +137,20 @@ export const Reports = () => {
             </Cell>
           ))}
         </Head>
-        {currentReports.map(report => (
+        {displayedReports.map(report => (
           <Row>
             <Cell>
               <Button
-                icon={"star"}
-                onClick={async () => {
-                  console.log("Hello World!")
+                icon={getStarIcon(report.fav)}
+                onClick={ () => {
+                  report.fav = !report.fav;
+                  let reports = savedReports.map(savedReport => {
+                    if (savedReport.name === report.name) {
+                      savedReport.fav = report.fav;
+                    }
+                    return savedReport
+                  });
+                  setSavedReports(reports);
                 }}
               />
             </Cell>
@@ -128,6 +169,37 @@ export const Reports = () => {
           </Row>
         ))}
       </Table>
+      </Fragment>
+      <Fragment>
+      <Button text="Bericht erstellen" onClick={() => setOpen(true)}/>
+      {isOpen && (
+        <ModalDialog closeButtonText={"Abbrechen"} header="Bericht erstellen" onClose={() => setOpen(false)}>
+          <Form submitButtonText={"Erstellen"} onSubmit={data => {
+            console.log(data);
+            data["fav"] = false;
+            data["marked_by"] = 0;
+            let reports = savedReports;
+            reports.push(data);
+            setSavedReports(reports);
+            reports = displayedReports;
+            reports.push(data);
+            setDisplayedReports(reports);
+            setOpen(false);
+          }}>
+            <TextField name={"name"} label={"Name"}/>
+            <Select label='Besitzer' name='owner' placeholder="Besitzer" isRequired={true}>
+              {getUserOptions(savedReports).map(user => (
+                <Option label={user} value={user}/>
+              ))}
+            </Select>
+            <Select label="Zugriffsrechte" name="access" isRequired={true}>
+              <Option defaultSelected label="Öffentlich" value="public" />
+              <Option label="Privat" value="private" />
+            </Select>
+          </Form>
+        </ModalDialog>
+      )}
+      </Fragment>
     </Fragment>
   );
 };
