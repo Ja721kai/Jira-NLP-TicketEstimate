@@ -1,5 +1,5 @@
 import ForgeUI, {
-  Button,
+  Button, ButtonSet,
   Cell,
   Form,
   Fragment,
@@ -106,6 +106,20 @@ export const Reports = () => {
     <Button text="Reset Filters" onClick={reset} />,
   ];
 
+  const addReport = (report) => {
+    let reports = savedReports;
+    reports.push(report);
+    setSavedReports(reports);
+    reports = displayedReports;
+    reports.push(report);
+    setDisplayedReports(reports);
+  }
+
+  const deleteReport = (report) => {
+    setSavedReports(savedReports.filter(rep => rep.name !== report.name));
+    setDisplayedReports(displayedReports.filter(rep => rep.name !== report.name));
+  }
+
   // Modal Dialog
   const [isOpen, setOpen] = useState(false);
 
@@ -136,6 +150,8 @@ export const Reports = () => {
               <Text>{columnName}</Text>
             </Cell>
           ))}
+          <Cell>
+          </Cell>
         </Head>
         {displayedReports.map(report => (
           <Row>
@@ -166,6 +182,12 @@ export const Reports = () => {
             <Cell>
               <Text>{report.marked_by.toString() + " Personen"}</Text>
             </Cell>
+            <Cell>
+              <ButtonSet>
+                <Button icon="download" onClick={() => {downloadReport(report)}}/>
+                <Button icon="trash" onClick={() => {deleteReport(report)}}/>
+              </ButtonSet>
+            </Cell>
           </Row>
         ))}
       </Table>
@@ -178,12 +200,7 @@ export const Reports = () => {
             console.log(data);
             data["fav"] = false;
             data["marked_by"] = 0;
-            let reports = savedReports;
-            reports.push(data);
-            setSavedReports(reports);
-            reports = displayedReports;
-            reports.push(data);
-            setDisplayedReports(reports);
+            addReport(data);
             setOpen(false);
           }}>
             <TextField name={"name"} label={"Name"}/>
