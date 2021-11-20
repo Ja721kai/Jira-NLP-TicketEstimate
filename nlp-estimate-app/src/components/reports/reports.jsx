@@ -76,7 +76,7 @@ export const Reports = () => {
   const[displayedReports, setDisplayedReports] = useState(savedReports);
 
   const filterCurrentReports = (formData) => {
-    let filteredReports = displayedReports;
+    let filteredReports = savedReports;
     if (formData.name !== "") {
       filteredReports = filteredReports.filter(report => report.name.includes(formData.name));
     }
@@ -84,20 +84,87 @@ export const Reports = () => {
       filteredReports = filteredReports.filter(report => report.owner === formData.user);
     }
     setDisplayedReports(filteredReports);
-  }
-
-  const onSubmit = async (formData) => {
-    filterCurrentReports(formData);
-  }
+  };
 
   const reset = () => {
     setDisplayedReports(savedReports);
+  };
+
+  const onSubmit = async (formData) => {
+    filterCurrentReports(formData);
   };
 
   const actionButtons = [
     <Button text="Reset Filters" onClick={reset} />,
   ];
 
+  // table sorting
+  const[sort1, setSort1] = useState("");
+  const[sort2, setSort2] = useState("");
+  const[sort3, setSort3] = useState("");
+  const[sort4, setSort4] = useState("");
+  let sortingSetters =
+    [
+      (order) => setSort1(order),
+      (order) => setSort2(order),
+      (order) => setSort3(order),
+      (order) => setSort4(order)
+    ];
+
+  let sortingArrows =
+  [
+    {
+      id: 1,
+      name: "name",
+      state: useState(sort1)
+    },
+    {
+      id: 2,
+      name: "owner",
+      state: useState(sort2)
+    },
+    {
+      id: 3,
+      name: "access",
+      state: useState(sort3)
+    },
+    {
+      id: 4,
+      name: "marked_by",
+      state: useState(sort4)
+    }
+  ];
+
+  const getArrowIcon = (direction, state) => {
+    switch (direction) {
+      case "up":
+        return (state === "up") ? "arrow-up-circle" : "arrow-up";
+      case "down":
+        return (state === "down") ? "arrow-down-circle" : "arrow-down";
+      default:
+        throw Error("Provided arrow direction is neither up or down. Given direction: " + direction);
+    }
+  }
+
+  const sort = (order, index) => {
+    let reports = displayedReports;
+    switch (order) {
+      case "asc":
+        sortingSetters[index]("up");
+        reports = reports.sort(report => report[sortingArrows[index].name]);
+        setDisplayedReports(reports);
+        break;
+      case "desc":
+        sortingSetters[index]("down");
+        reports = reports.sort(report => report[sortingArrows[index].name]);
+        setDisplayedReports(reports);
+        break;
+      default:
+        throw Error("Provided order is neither asc or desc. Given order: " + order);
+    }
+  }
+
+  // add and delete reports
   const addReport = (report) => {
     let reports = savedReports;
     reports.push(report);
@@ -139,8 +206,10 @@ export const Reports = () => {
               disabled={true}
             />
           </Cell>
-          {tableColumnNames.map(columnName => (
+          {tableColumnNames.map((columnName, index)=> (
             <Cell>
+              <Button icon={getArrowIcon("up", sortingArrows[index].state)} onClick={() => sort("asc", index)}/>
+              <Button icon={getArrowIcon("down", sortingArrows[index].state)} onClick={() => sort("desc", index)}/>
               <Text>{columnName}</Text>
             </Cell>
           ))}
