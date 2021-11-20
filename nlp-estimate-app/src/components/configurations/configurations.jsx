@@ -19,7 +19,6 @@ const configurationsData = [
   }
   ]
 
-
 export const Configurations = () => {
   const [isOpen, setOpen] = useState(false);
   return (
