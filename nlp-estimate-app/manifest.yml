@@ -16,7 +16,6 @@ modules:
       handler: admin.run
 app:
   id: ari:cloud:ecosystem::app/f4d8ecba-2b28-4894-a71f-d65274aa3224
-  name: nlp-estimate-app
 permissions:
   scopes:
     - write:jira-work
