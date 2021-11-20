@@ -54,14 +54,7 @@ let mockReports = [
   }
 ];
 
-let currentPage = 1;
 const PAGESIZE = 3;
-
-const getCurrentPageRange = () => {
-  let end = currentPage * PAGESIZE;
-  let start = end - (PAGESIZE - 1);
-  return start.toString() + "-" + end.toString(); // e.g. 1-20
-}
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -69,8 +62,7 @@ function onlyUnique(value, index, self) {
 
 const getUserOptions = (reportList) => {
   const reportNames = reportList.map(report => (report.owner));
-  const uniqueNames = reportNames.filter(onlyUnique);
-  return uniqueNames;
+  return reportNames.filter(onlyUnique);
 }
 
 const getStarIcon = (isFav) => {
@@ -119,6 +111,8 @@ export const Reports = () => {
     setSavedReports(savedReports.filter(rep => rep.name !== report.name));
     setDisplayedReports(displayedReports.filter(rep => rep.name !== report.name));
   }
+
+  const downloadReport = (report) => {}  // to be implemented in the future
 
   // Modal Dialog
   const [isOpen, setOpen] = useState(false);
