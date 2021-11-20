@@ -203,7 +203,7 @@ export const Reports = () => {
             addReport(data);
             setOpen(false);
           }}>
-            <TextField name={"name"} label={"Name"}/>
+            <TextField name={"name"} label={"Name"} isRequired={true}/>
             <Select label='Besitzer' name='owner' placeholder="Besitzer" isRequired={true}>
               {getUserOptions(savedReports).map(user => (
                 <Option label={user} value={user}/>
