@@ -9,6 +9,10 @@ modules:
       function: admin
       title: nlp-estimate-admin
       label: NLP Estimate Admin
+  trigger:
+    - key: updated-issue-trigger
+      function:
+      events: avi:jira:updated:issue
   function:
     - key: main
       handler: index.run
