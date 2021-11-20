@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "@atlaskit/icon": "^21.9.0",
-    "@forge/ui": "^0.9.0"
+    "@forge/ui": "^0.15.0"
   }
 }

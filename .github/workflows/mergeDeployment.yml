@@ -1,0 +1,61 @@
+# This workflow will install Node, npm, Forge and finally deploy to staging/prod based on the destined branch.
+
+name: Deploy forge app on push
+
+on:
+  push:
+    branches: [ dev, main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - uses: actions/checkout@v2
+
+        # Set correct environment variable
+      - name: Debug current branch name
+        run: |
+          echo "Running on pr with target: ${{ github.ref }}"
+      - name: Set env to staging
+        if: endsWith(github.ref, '/dev')
+        run: |
+          echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+      - name: Set env to production
+        if: endsWith(github.ref, '/main')
+        run: |
+          echo "ENVIRONMENT=production" >> $GITHUB_ENV
+
+        # Setup Node.js
+      - name: Setup npm package
+        run: npm init -y && npm install
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+        # Setup npm
+      - name: Setup npm
+        working-directory: ./nlp-estimate-app
+        run: npm init -y && npm install
+
+        # Setup Forge CLI
+      - name: Setup forge cli
+        run: npm install -g @forge/cli
+      - name: Debug forge version and refuse analytics settings
+        run: forge --version & forge settings set usage-analytics false
+      - name: Login as Jan Kaiser
+        run: forge login -u jan.kaiser@stud.akad.de -t ${{ secrets.FORGE_API_TOKEN }}  # token should be taken from keystore or anything similar
+
+        # Deploy to Staging on dev, Production on main. This assumes that the app has already been installed to an Atlassian product.
+      - name: Deploy to ${{ env.ENVIRONMENT }}
+        working-directory: ./nlp-estimate-app
+        # For installation run the following: forge install -e staging -p Jira -s khs-systems.atlassian.net --confirm-scopes
+        run: forge deploy -e ${{ env.ENVIRONMENT }}
