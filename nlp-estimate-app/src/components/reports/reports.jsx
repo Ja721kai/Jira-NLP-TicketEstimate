@@ -5,6 +5,7 @@ import ForgeUI, {
   Select, Option,
   Cell, Head, Row, Table,
   Text, Strong, TextField,
+  useState
 } from '@forge/ui';
 
 const tableColumnNames = ["Name", "Besitzer", "Zugriff", "Markiert von"];
@@ -43,15 +44,7 @@ let mockReports = [
 ];
 
 let currentReports = mockReports;
-
-let currentPage = 1;
 const PAGESIZE = 3;
-
-const getCurrentPageRange = () => {
-  let end = currentPage * PAGESIZE;
-  let start = end - (PAGESIZE - 1);
-  return start.toString() + "-" + end.toString(); // e.g. 1-20
-}
 
 function onlyUnique(value, index, self) {
   return self.indexOf(value) === index;
@@ -83,6 +76,7 @@ const actionButtons = [
 ];
 
 export const Reports = () => {
+
   return (
     <Fragment>
       <Fragment>
@@ -95,7 +89,6 @@ export const Reports = () => {
           </Select>
         </Form>
       </Fragment>
-      <Text><Strong>{getCurrentPageRange()}</Strong> von <Strong>{currentReports.length}</Strong></Text>
       <Table rowsPerPage={PAGESIZE}>
         <Head>
           <Cell>
