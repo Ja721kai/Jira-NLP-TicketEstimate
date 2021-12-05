@@ -146,17 +146,28 @@ export const Reports = () => {
     }
   }
 
-  const sort = (order, index) => {
+  const sort_table = (order, index) => {
     let reports = displayedReports;
+    console.log("sorting triggered, arrow index: " + index.toString());
     switch (order) {
       case "asc":
+        console.log("Sorting order: " + order);
+        console.log("Sort by: " + sortingArrows[index].name);
         sortingSetters[index]("up");
-        reports = reports.sort(report => report[sortingArrows[index].name]);
+        console.log(reports);
+        reports = reports.sort((a, b) => a[sortingArrows[index].name].toString()
+                    .localeCompare(b[sortingArrows[index].name].toString()));
+        console.log(reports);
         setDisplayedReports(reports);
         break;
       case "desc":
+        console.log("Sorting order: " + order);
+        console.log("Sort by: " + sortingArrows[index].name);
         sortingSetters[index]("down");
-        reports = reports.sort(report => report[sortingArrows[index].name]);
+        console.log(reports);
+        reports = reports.sort((a, b) => b[sortingArrows[index].name].toString()
+                    .localeCompare(a[sortingArrows[index].name].toString()));
+        console.log(reports);
         setDisplayedReports(reports);
         break;
       default:
@@ -208,8 +219,8 @@ export const Reports = () => {
           </Cell>
           {tableColumnNames.map((columnName, index)=> (
             <Cell>
-              <Button icon={getArrowIcon("up", sortingArrows[index].state)} onClick={() => sort("asc", index)}/>
-              <Button icon={getArrowIcon("down", sortingArrows[index].state)} onClick={() => sort("desc", index)}/>
+              <Button icon={getArrowIcon("up", sortingArrows[index].state)} onClick={() => sort_table("asc", index)}/>
+              <Button icon={getArrowIcon("down", sortingArrows[index].state)} onClick={() => sort_table("desc", index)}/>
               <Text>{columnName}</Text>
             </Cell>
           ))}
