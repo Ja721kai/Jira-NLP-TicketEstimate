@@ -183,8 +183,16 @@ export const Reports = () => {
 
   const downloadReport = (report) => {}  // to be implemented in the future
 
+  let [detailReportName, setDetailReportName] = useState("");
+
+  const showReportDetails = (report) => {
+    setOpenEdit(true);
+    setDetailReportName(report.name);
+  }
+
   // Modal Dialog
-  const [isOpen, setOpen] = useState(false);
+  const [isOpenCreate, setOpenCreate] = useState(false);
+  const [isOpenEdit, setOpenEdit] = useState(false);
 
   return (
     <Fragment>
@@ -251,6 +259,7 @@ export const Reports = () => {
               <ButtonSet>
                 <Button icon="download" onClick={() => {downloadReport(report)}}/>
                 <Button icon="trash" onClick={() => {deleteReport(report)}}/>
+                <Button icon="more" onClick={() => {showReportDetails(report)}}/>
               </ButtonSet>
             </Cell>
           </Row>
@@ -258,15 +267,14 @@ export const Reports = () => {
       </Table>
       </Fragment>
       <Fragment>
-      <Button text="Bericht erstellen" onClick={() => setOpen(true)}/>
-      {isOpen && (
-        <ModalDialog closeButtonText={"Abbrechen"} header="Bericht erstellen" onClose={() => setOpen(false)}>
+      <Button text="Bericht erstellen" onClick={() => setOpenCreate(true)}/>
+      {isOpenCreate && (
+        <ModalDialog closeButtonText={"Abbrechen"} header="Bericht erstellen" onClose={() => setOpenCreate(false)}>
           <Form submitButtonText={"Erstellen"} onSubmit={data => {
-            console.log(data);
             data["fav"] = false;
             data["marked_by"] = 0;
             addReport(data);
-            setOpen(false);
+            setOpenCreate(false);
           }}>
             <TextField name={"name"} label={"Name"} isRequired={true}/>
             <Select label='Besitzer' name='owner' placeholder="Besitzer" isRequired={true}>
@@ -281,6 +289,16 @@ export const Reports = () => {
           </Form>
         </ModalDialog>
       )}
+        {isOpenEdit && (
+          <ModalDialog closeButtonText={"Abbrechen"} header={detailReportName} onClose={() => setOpenEdit(false)}>
+            <Text> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+              labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+              rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+              dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+              magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+              clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </Text>
+          </ModalDialog>
+        )}
       </Fragment>
     </Fragment>
   );
