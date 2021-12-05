@@ -148,26 +148,17 @@ export const Reports = () => {
 
   const sort_table = (order, index) => {
     let reports = displayedReports;
-    console.log("sorting triggered, arrow index: " + index.toString());
     switch (order) {
       case "asc":
-        console.log("Sorting order: " + order);
-        console.log("Sort by: " + sortingArrows[index].name);
         sortingSetters[index]("up");
-        console.log(reports);
         reports = reports.sort((a, b) => a[sortingArrows[index].name].toString()
                     .localeCompare(b[sortingArrows[index].name].toString()));
-        console.log(reports);
         setDisplayedReports(reports);
         break;
       case "desc":
-        console.log("Sorting order: " + order);
-        console.log("Sort by: " + sortingArrows[index].name);
         sortingSetters[index]("down");
-        console.log(reports);
         reports = reports.sort((a, b) => b[sortingArrows[index].name].toString()
                     .localeCompare(a[sortingArrows[index].name].toString()));
-        console.log(reports);
         setDisplayedReports(reports);
         break;
       default:
