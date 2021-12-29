@@ -95,7 +95,7 @@ export const Reports = () => {
   };
 
   const actionButtons = [
-    <Button text="Reset Filters" onClick={reset} />,
+    <Button text="Filter zurücksetzen" onClick={reset} />,
   ];
 
   // table sorting
@@ -196,10 +196,14 @@ export const Reports = () => {
 
   return (
     <Fragment>
+      <Text> </Text>
+      <Text>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </Text>
       <Fragment>
-        <Form onSubmit={onSubmit} actionButtons={actionButtons}>
+        <Form submitButtonText="Anwenden" onSubmit={onSubmit} actionButtons={actionButtons}>
           <TextField label='Name' name='name' />
-          <Select label='User' name='user' placeholder="Besitzer">
+          <Select label='Besitzer' name='user' placeholder="Besitzer">
             <Option defaultSelected label="Besitzer" value="" />
             {getUserOptions(savedReports).map(user => (
               <Option label={user} value={user}/>
@@ -282,7 +286,7 @@ export const Reports = () => {
                 <Option label={user} value={user}/>
               ))}
             </Select>
-            <Select label="Zugriffsrechte" name="access" isRequired={true}>
+            <Select label="Zugriff" name="access" isRequired={true}>
               <Option defaultSelected label="Öffentlich" value="public" />
               <Option label="Privat" value="private" />
             </Select>
