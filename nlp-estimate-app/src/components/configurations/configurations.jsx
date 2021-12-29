@@ -12,15 +12,36 @@ import ForgeUI, {
   Option, useState,
 } from "@forge/ui";
 
-const configurationsData = [
+
+
+export const configurationsData = [
   {
     name: 'Schätzeinheit',
     value: 'Personentage'
   }
-  ]
+]
 
 export const Configurations = () => {
   const [isOpen, setOpen] = useState(false);
+
+  const[estimationUnit, setEstimationUnit] = useState("Personentage");
+
+  const reactConfigurationsData = [
+    {
+      name: 'Schätzeinheit',
+      value: estimationUnit
+    }
+  ]
+
+  const setEstimation = (unit) => {
+    if (!["Personentage", "Personenstunden"].includes(estimationUnit)) {
+      throw Error("Schätzeinheiten stimmen nicht miteinander überein.");
+    } else {
+      setEstimationUnit(unit);
+      configurationsData["value"] = estimationUnit;
+    }
+  }
+
   return (
     <Fragment>
       <Text> </Text>
@@ -30,11 +51,12 @@ export const Configurations = () => {
         <ModalDialog closeButtonText={"Abbrechen"} header="Allgemeine Konfigurationen" onClose={() => setOpen(false)}>
           <Form submitButtonText={"Speichern"} onSubmit={data => {
             console.log(data);
+            setEstimation(data["unit"]);
             setOpen(false);
           }}>
             <Select label="Schätzeinheit" name="unit">
-              <Option defaultSelected label="Personentage" value="days" />
-              <Option label="Personenstunden" value="hours" />
+              <Option defaultSelected label="Personentage" value="Personentage" />
+              <Option label="Personenstunden" value="Personenstunden" />
             </Select>
           </Form>
         </ModalDialog>
@@ -48,7 +70,7 @@ export const Configurations = () => {
             <Text>Wert</Text>
           </Cell>
         </Head>
-        {configurationsData.map(configuration => (
+        {reactConfigurationsData.map(configuration => (
           <Row>
             <Cell>
               <Text>{configuration.name}</Text>
