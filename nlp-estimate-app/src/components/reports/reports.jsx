@@ -14,8 +14,6 @@ import ForgeUI, {
   useState
 } from '@forge/ui';
 
-import { storage } from "@forge/api";
-
 const tableColumnNames = ["Name", "Besitzer", "Zugriff", "Markiert von"];
 
 let mockReports = [
@@ -72,8 +70,6 @@ const getStarIcon = (isFav) => {
 }
 
 export const Reports = () => {
-
-  const [unit] = useState(storage.get("unit"));
 
   // Form submission & table filtering using form values
   const[savedReports, setSavedReports] = useState(mockReports);
@@ -200,7 +196,6 @@ export const Reports = () => {
 
   return (
     <Fragment>
-      <Text> {unit ? unit : "Einheit nicht gesetzt"} </Text>
       <Text>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </Text>
