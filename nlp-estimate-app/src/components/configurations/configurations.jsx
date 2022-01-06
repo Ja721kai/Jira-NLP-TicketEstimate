@@ -9,22 +9,22 @@ import ForgeUI, {
   ModalDialog,
   Form,
   Select,
-  Option, useState,
+  Option, useState
 } from "@forge/ui";
 
+import { storage } from "@forge/api";
 
-
-export const configurationsData = [
-  {
-    name: 'Schätzeinheit',
-    value: 'Personentage'
-  }
-]
+async function storeUnit(unit) {
+  console.log("Set estimation unit: " + unit);
+  await storage.set("unit", unit);
+}
 
 export const Configurations = () => {
   const [isOpen, setOpen] = useState(false);
 
-  const[estimationUnit, setEstimationUnit] = useState("Personentage");
+  const [estimationUnit, setEstimationUnit] = useState(storage.get("unit"));
+
+  storeUnit(estimationUnit).then(r => console.log(r));
 
   const reactConfigurationsData = [
     {
@@ -38,7 +38,7 @@ export const Configurations = () => {
       throw Error("Schätzeinheiten stimmen nicht miteinander überein.");
     } else {
       setEstimationUnit(unit);
-      configurationsData["value"] = estimationUnit;
+      storeUnit(estimationUnit).then(r => console.log(r));
     }
   }
 
