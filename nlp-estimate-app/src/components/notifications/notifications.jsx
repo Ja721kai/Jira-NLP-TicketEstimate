@@ -5,25 +5,25 @@ const notificationData = [
     author: 'JIRA',
     status: 'TEXT ZZZ',
     action: 'Mehr anzeigen',
-    date: '27/Jun/21 7:06 PM'
+    date: 'Mon, 3 Jan 2022 10:50:04 GMT'
   },
   {
     author: 'JIRA',
     status: 'TEXT AAA',
     action: 'Mehr anzeigen',
-    date: '27/Aug/21 1:34 PM'
+    date: 'Tue, 4 Jan 2022 11:30:31 GMT'
   },
   {
     author: 'JIRA',
     status: 'TEXT BBB',
     action: 'Mehr anzeigen',
-    date: '27/Sep/21 12:06 PM'
+    date: 'Wed, 5 Jan 2022 10:59:01 GMT'
   },
   {
     author: 'JIRA',
     status: 'TEXT CCC',
     action: 'Mehr anzeigen',
-    date: '27/Dec/21 4:06 PM'
+    date: 'Thu, 6 Jan 2022 11:02:35 GMT'
   }
 ];
 
