@@ -95,7 +95,7 @@ export const Reports = () => {
   };
 
   const actionButtons = [
-    <Button text="Reset Filters" onClick={reset} />,
+    <Button text="Filter zurücksetzen" onClick={reset} />,
   ];
 
   // table sorting
@@ -146,17 +146,19 @@ export const Reports = () => {
     }
   }
 
-  const sort = (order, index) => {
+  const sort_table = (order, index) => {
     let reports = displayedReports;
     switch (order) {
       case "asc":
         sortingSetters[index]("up");
-        reports = reports.sort(report => report[sortingArrows[index].name]);
+        reports = reports.sort((a, b) => a[sortingArrows[index].name].toString()
+                    .localeCompare(b[sortingArrows[index].name].toString()));
         setDisplayedReports(reports);
         break;
       case "desc":
         sortingSetters[index]("down");
-        reports = reports.sort(report => report[sortingArrows[index].name]);
+        reports = reports.sort((a, b) => b[sortingArrows[index].name].toString()
+                    .localeCompare(a[sortingArrows[index].name].toString()));
         setDisplayedReports(reports);
         break;
       default:
@@ -181,15 +183,27 @@ export const Reports = () => {
 
   const downloadReport = (report) => {}  // to be implemented in the future
 
+  let [detailReportName, setDetailReportName] = useState("");
+
+  const showReportDetails = (report) => {
+    setOpenEdit(true);
+    setDetailReportName(report.name);
+  }
+
   // Modal Dialog
-  const [isOpen, setOpen] = useState(false);
+  const [isOpenCreate, setOpenCreate] = useState(false);
+  const [isOpenEdit, setOpenEdit] = useState(false);
 
   return (
     <Fragment>
+      <Text> </Text>
+      <Text>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </Text>
       <Fragment>
-        <Form onSubmit={onSubmit} actionButtons={actionButtons}>
+        <Form submitButtonText="Anwenden" onSubmit={onSubmit} actionButtons={actionButtons}>
           <TextField label='Name' name='name' />
-          <Select label='User' name='user' placeholder="Besitzer">
+          <Select label='Besitzer' name='user' placeholder="Besitzer">
             <Option defaultSelected label="Besitzer" value="" />
             {getUserOptions(savedReports).map(user => (
               <Option label={user} value={user}/>
@@ -208,8 +222,8 @@ export const Reports = () => {
           </Cell>
           {tableColumnNames.map((columnName, index)=> (
             <Cell>
-              <Button icon={getArrowIcon("up", sortingArrows[index].state)} onClick={() => sort("asc", index)}/>
-              <Button icon={getArrowIcon("down", sortingArrows[index].state)} onClick={() => sort("desc", index)}/>
+              <Button icon={getArrowIcon("up", sortingArrows[index].state)} onClick={() => sort_table("asc", index)}/>
+              <Button icon={getArrowIcon("down", sortingArrows[index].state)} onClick={() => sort_table("desc", index)}/>
               <Text>{columnName}</Text>
             </Cell>
           ))}
@@ -249,6 +263,7 @@ export const Reports = () => {
               <ButtonSet>
                 <Button icon="download" onClick={() => {downloadReport(report)}}/>
                 <Button icon="trash" onClick={() => {deleteReport(report)}}/>
+                <Button icon="more" onClick={() => {showReportDetails(report)}}/>
               </ButtonSet>
             </Cell>
           </Row>
@@ -256,15 +271,14 @@ export const Reports = () => {
       </Table>
       </Fragment>
       <Fragment>
-      <Button text="Bericht erstellen" onClick={() => setOpen(true)}/>
-      {isOpen && (
-        <ModalDialog closeButtonText={"Abbrechen"} header="Bericht erstellen" onClose={() => setOpen(false)}>
+      <Button text="Bericht erstellen" onClick={() => setOpenCreate(true)}/>
+      {isOpenCreate && (
+        <ModalDialog closeButtonText={"Abbrechen"} header="Bericht erstellen" onClose={() => setOpenCreate(false)}>
           <Form submitButtonText={"Erstellen"} onSubmit={data => {
-            console.log(data);
             data["fav"] = false;
             data["marked_by"] = 0;
             addReport(data);
-            setOpen(false);
+            setOpenCreate(false);
           }}>
             <TextField name={"name"} label={"Name"} isRequired={true}/>
             <Select label='Besitzer' name='owner' placeholder="Besitzer" isRequired={true}>
@@ -272,13 +286,23 @@ export const Reports = () => {
                 <Option label={user} value={user}/>
               ))}
             </Select>
-            <Select label="Zugriffsrechte" name="access" isRequired={true}>
+            <Select label="Zugriff" name="access" isRequired={true}>
               <Option defaultSelected label="Öffentlich" value="public" />
               <Option label="Privat" value="private" />
             </Select>
           </Form>
         </ModalDialog>
       )}
+        {isOpenEdit && (
+          <ModalDialog closeButtonText={"Abbrechen"} header={detailReportName} onClose={() => setOpenEdit(false)}>
+            <Text> Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+              labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea
+              rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum
+              dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+              magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet
+              clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. </Text>
+          </ModalDialog>
+        )}
       </Fragment>
     </Fragment>
   );

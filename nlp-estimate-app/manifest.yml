@@ -7,8 +7,8 @@ modules:
   jira:adminPage:
     - key: nlp-estimate-app-admin-page
       function: admin
-      title: nlp-estimate-admin
-      label: NLP Estimate Admin
+      title: Automatisierte Schätzung Admin
+      label: Automatisierte Schätzung Admin
   function:
     - key: main
       handler: index.run
