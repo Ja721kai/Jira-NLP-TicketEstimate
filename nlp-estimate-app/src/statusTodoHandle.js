@@ -12,7 +12,7 @@ export async function run(event, context) {
   console.log(eventToString);
 
   if (eventField === "status" && eventFromString !== eventToString && eventToString === "TO DO") {
-    const estimation = Math.random();
+    const estimation = Math.round(Math.random() * 100) / 100;
     console.log("Set estimation: " + estimation.toString());
     await storage.set("estimation", estimation);
   }
