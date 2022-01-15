@@ -14,6 +14,14 @@ modules:
       handler: index.run
     - key: admin
       handler: admin.run
+    - key: statusTodoHandler
+      handler: statusTodoHandle.run
+  trigger:
+    - key: issueStatusTrigger
+      function: statusTodoHandler
+      events:
+        - avi:jira:updated:issue
+        - avi:jira:created:issue
 app:
   id: ari:cloud:ecosystem::app/f4d8ecba-2b28-4894-a71f-d65274aa3224
 permissions:

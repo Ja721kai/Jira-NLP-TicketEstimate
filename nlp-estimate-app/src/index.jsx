@@ -18,4 +18,3 @@ const App = () => {
 export const run = render(
   <App />
 );
-
