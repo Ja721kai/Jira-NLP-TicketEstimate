@@ -6,32 +6,33 @@ import ForgeUI, {
   Heading,
   Button,
   TextField,
-  Form, ModalDialog
+  Form, ModalDialog, Select, Option
 } from "@forge/ui";
 
 const endpointsData = [
   {
     endpoint: 'Inferenz',
     url: 'https://mockup-endpoint-ip:port/endpoint',
-    action1: 'Bearbeiten',
-    action2: 'Löschen'
   },
   {
     endpoint: 'Gewichte',
     url: 'https://mockup-endpoint-ip:port/endpoint',
-    action1: 'Bearbeiten',
-    action2: 'Löschen'
   },
   {
     endpoint: 'DVC',
     url: 'https://mockup-endpoint-ip:port/endpoint',
-    action1: 'Bearbeiten',
-    action2: 'Löschen'
   }
 ];
 
 export const Endpoints = () => {
+  // Modal Dialog
+  const [isOpenCreate, setOpenCreate] = useState(false);
   const [editDialog, setEditDialog] = useState({open:false,currentItem:{}});
+  const[savedEndpoints, setSavedEndpoints] = useState(endpointsData);
+  function addEndpoints (endpoint){
+    savedEndpoints.push(endpoint)
+    setSavedEndpoints(savedEndpoints)
+  }
   return (
     <Fragment>
       <Text> </Text>
@@ -65,7 +66,7 @@ export const Endpoints = () => {
             <Text>Aktionen</Text>
           </Cell>
         </Head>
-        {endpointsData.map(endpoint => (
+        {savedEndpoints.map(endpoint => (
           <Row>
             <Cell>
               <Text>{endpoint.endpoint}</Text>
@@ -74,18 +75,26 @@ export const Endpoints = () => {
               <Text>{endpoint.url}</Text>
             </Cell>
             <Cell>
-              <Button appearance="link" text={endpoint.action1}
+              <Button appearance="link" text="Bearbeiten"
                       onClick={()=>setEditDialog({open:true,currentItem:endpoint})} />
-              <Button appearance="link" text={endpoint.action2} />
+              <Button appearance="link" text="Löschen" />
             </Cell>
           </Row>
         ))}
       </Table>
-      <Heading size="small">API Endpunkt hinzufügen</Heading>
-      <Form submitButtonText={"Hinzufügen"}>
-        <TextField label="Name" name="name" />
-        <TextField label="URL" name="url" />
-      </Form>
+
+      <Button text="API Endpunkt hinzufügen" onClick={() => setOpenCreate(true)}/>
+      {isOpenCreate && (
+        <ModalDialog closeButtonText={"Abbrechen"} header="API Endpunkt hinzufügen" onClose={() => setOpenCreate(false)}>
+          <Form submitButtonText={"Hinzufügen"} onSubmit={data => {
+            addEndpoints(data);
+            setOpenCreate(false);
+          }}>
+            <TextField name="endpoint" label={"Name"} isRequired={true}/>
+            <TextField label='URL' name='url' isRequired={true}/>
+          </Form>
+        </ModalDialog>
+      )}
     </Fragment>
   )
 }

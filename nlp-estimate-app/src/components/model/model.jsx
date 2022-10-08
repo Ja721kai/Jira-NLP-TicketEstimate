@@ -12,30 +12,32 @@ import ForgeUI, {
 
 const modelData = [
   {
-    date: '27/Jun/21 1:00PM',
+    date: 'Sat, 1 Jan 2022 00:18:31 GMT',
     name: 'Modell - v 1.0.3',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing...',
-    action1: 'Aktualisieren',
-    action2: 'Löschen'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing...'
   },
   {
-    date: '21/Jun/21 3:15 PM',
+    date: 'Mon, 10 Jan 2022 11:00:59 GMT',
     name: 'Modell - v 1.0.2',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing...',
-    action1: 'Aktualisieren',
-    action2: 'Löschen'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing...'
   },
   {
-    date: '18/Jun/21 11:00 AM',
+    date: 'Wed, 12 Jan 2022 10:39:31 GMT',
     name: 'Modell - v 1.0.1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing...',
-    action1: 'Aktualisieren',
-    action2: 'Löschen'
+    description: 'Lorem ipsum dolor sit amet, consectetur adipisicing...'
   }
 ];
 
 export const Models = () => {
   const [isOpen, setOpen] = useState(false);
+  // Modal Dialog
+  const [isOpenCreate, setOpenCreate] = useState(false);
+  const [editDialog, setEditDialog] = useState({open:false,currentItem:{}});
+  const[savedModels, setSavedModels] = useState(modelData);
+  function addModels (model){
+    savedModels.push(model)
+    setSavedModels(savedModels)
+  }
   return (
     <Fragment>
       <Text> </Text>
@@ -58,7 +60,7 @@ export const Models = () => {
             <Text>Aktionen</Text>
           </Cell>
         </Head>
-        {modelData.map(model => (
+        {savedModels.map(model => (
           <Row>
             <Cell>
               <Text>{model.date}</Text>
@@ -70,18 +72,27 @@ export const Models = () => {
               <Text>{model.description}</Text>
             </Cell>
             <Cell>
-              <Button appearance="link" text={model.action1} />
-              <Button appearance="link" text={model.action2} />
+              <Button appearance="link" text="Aktualisieren" />
+              <Button appearance="link" text="Löschen" />
             </Cell>
           </Row>
         ))}
       </Table>
-      <Heading size="small">Modell hinzufügen</Heading>
-      <Form submitButtonText={"Hinzufügen"}>
-        <TextField label="Name" name="name" />
-        <TextField label="Beschreibung" name="desription" />
-        <Button text = "Datei auswählen" icon="folder"/>
-      </Form>
+
+      <Button text="Modell hinzufügen" onClick={() => setOpenCreate(true)}/>
+      {isOpenCreate && (
+        <ModalDialog closeButtonText={"Abbrechen"} header="Modell hinzufügen" onClose={() => setOpenCreate(false)}>
+          <Form submitButtonText={"Hinzufügen"} onSubmit={data => {
+            data.date = new Date().toUTCString()
+            addModels(data);
+            setOpenCreate(false);
+          }}>
+            <TextField name="name" label={"Name"} isRequired={true}/>
+            <TextField label='Beschreibung' name='description' isRequired={true}/>
+            <Button text = "Datei auswählen" icon="folder" onClick={()=>{}}/>
+          </Form>
+        </ModalDialog>
+      )}
     </Fragment>
   )
 }
