@@ -18,8 +18,9 @@ For further details visit: https://developer.atlassian.com/platform/forge/gettin
 # NLP Model
 
 ## Project Structure
+<pre>
 ├── README.md                 <- The top-level README for developers using this project.
-├── .gitignore                <- Ignore directories/files that shouldn't be commited
+├── .gitignore                <- Ignore directories/files that shouldn't be commited.
 ├── nlp-estimate-app          <- JIRA project
 │   └── ...
 ├── model                     <- Root folder for NLP Model
@@ -27,7 +28,8 @@ For further details visit: https://developer.atlassian.com/platform/forge/gettin
     │                             the creator's initials, and a short `-` delimited description, e.g.
     │                             `1.0-jqp-initial-data-exploration`.
     ├── data                  <- Ticket data
-    └── src            
+    └── src
         └── make_dataset.py   <- Script to build dataset for training/validation
         └── train_model.py    <- Script to train models
         └── predict_model.py  <- Script to use trained models to make predictions
+</pre>
