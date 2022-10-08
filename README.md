@@ -14,3 +14,20 @@ Forge-CLI install:
 2. Verify: `forge --version` (should be 1.1.0)
 
 For further details visit: https://developer.atlassian.com/platform/forge/getting-started/
+
+# NLP Model
+
+## Project Structure
+├── README.md                 <- The top-level README for developers using this project.
+├── .gitignore                <- Ignore directories/files that shouldn't be commited
+├── nlp-estimate-app          <- JIRA project
+│   └── ...
+├── model                     <- Root folder for NLP Model
+    ├── notebooks             <- Jupyter notebooks. Naming convention is a number (for ordering),
+    │                             the creator's initials, and a short `-` delimited description, e.g.
+    │                             `1.0-jqp-initial-data-exploration`.
+    ├── data                  <- Ticket data
+    └── src            
+        └── make_dataset.py   <- Script to build dataset for training/validation
+        └── train_model.py    <- Script to train models
+        └── predict_model.py  <- Script to use trained models to make predictions
